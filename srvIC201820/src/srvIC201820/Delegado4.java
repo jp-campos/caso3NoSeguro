@@ -26,6 +26,11 @@ public class Delegado4 implements Runnable{
 	public static final String INICIO = "INICIO";
 	public static final String ERROR = "ERROR";
 	public static final String REC = "recibio-";
+	
+	public static int numeroCarga;
+	
+	
+	private MonitorCPU monitor; 
 	// Atributos
 	private Socket sc = null;
 	private String dlg;
@@ -33,6 +38,7 @@ public class Delegado4 implements Runnable{
 	Delegado4 (Socket csP, int idP) {
 		sc = csP;
 		dlg = new String("delegado " + idP + ": ");
+		monitor = new MonitorCPU(idP); 
 	}
 	
 	public void run() {
@@ -43,7 +49,13 @@ public class Delegado4 implements Runnable{
 				BufferedReader dc = new BufferedReader(new InputStreamReader(sc.getInputStream()));
 
 				/***** Fase 1: Inicio *****/
+				
+				linea = dc.readLine(); 
+				System.out.println("carga =  " +  linea );
+				numeroCarga = Integer.parseInt(linea); 
+				
 				linea = dc.readLine();
+				
 				if (!linea.equals(HOLA)) {
 					ac.println(ERROR);
 				    sc.close();
@@ -103,6 +115,7 @@ public class Delegado4 implements Runnable{
 				
 				/***** Fase 6: Confirma llave simetrica *****/
 				linea = dc.readLine();
+				monitor.start();
 				if (!linea.equals("LS")) {
 					ac.println(ERROR);
 					throw new Exception(dlg + ERROR + "Problema confirmando llave. terminando.");

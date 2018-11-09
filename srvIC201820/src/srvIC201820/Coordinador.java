@@ -13,6 +13,12 @@ public class Coordinador {
 	private static ServerSocket ss;	
 	private static final String MAESTRO = "MAESTRO: ";
 	
+	/*
+	 *Numero de threads
+	 *1,2,8 
+	 */
+	public static final int NUMERO_THREADS = 1; 
+	
 	/**
 	 * @param args
 	 */
@@ -32,7 +38,7 @@ public class Coordinador {
 		ss = new ServerSocket(ip);
 		System.out.println(MAESTRO + "Socket creado.");		
 		
-		ExecutorService service = Executors.newFixedThreadPool(10);
+		ExecutorService service = Executors.newFixedThreadPool(NUMERO_THREADS);
 		
 		while (true) {
 			try { 
